@@ -1,1 +1,1 @@
-﻿Testing automatic Jenkins builds
+﻿Testing Jenkins automatic polling
