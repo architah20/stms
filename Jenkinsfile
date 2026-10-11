@@ -37,7 +37,7 @@ pipeline {
                 sh '''
                     docker stop stms-jenkins-app || true
                     docker rm stms-jenkins-app || true
-                    docker run -d --name stms-jenkins-app -p 5001:5000 ${IMAGE_NAME}:latest
+                    docker run -d --name stms-jenkins-app -p 5002:5000 ${IMAGE_NAME}:latest
                 '''
             }
         }
