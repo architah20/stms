@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STMS - Student Task Management System</title>
+<style>
+  body{font-family:Segoe UI,Arial,sans-serif;background:#f4f6fb;margin:0;color:#222}
+  .wrap{max-width:760px;margin:30px auto;padding:0 16px}
+  h1{color:#3b4cca;margin-bottom:4px}
+  .stats{color:#666;margin-bottom:16px}
+  form.add{display:flex;gap:8px;flex-wrap:wrap;background:#fff;padding:14px;border-radius:10px;box-shadow:0 1px 4px #0001}
+  input,select,button{padding:8px 10px;border:1px solid #ccd;border-radius:6px;font-size:14px}
+  input[name=title]{flex:1;min-width:180px}
+  button{background:#3b4cca;color:#fff;border:none;cursor:pointer}
+  ul{list-style:none;padding:0}
+  li{background:#fff;margin:10px 0;padding:12px 14px;border-radius:10px;box-shadow:0 1px 4px #0001;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  li.done .t{text-decoration:line-through;color:#999}
+  .t{flex:1}
+  .tag{font-size:12px;padding:2px 8px;border-radius:10px;background:#e8ebff}
+  .High{background:#ffd9d9}.Low{background:#d9f5e0}
+  a{font-size:13px;color:#3b4cca;text-decoration:none}
+  a.del{color:#c0392b}
+  form.edit{display:inline-flex;gap:4px}
+  form.edit input{width:110px;padding:4px 6px}
+  form.edit button{padding:4px 8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Student Task Management System</h1>
+  <div class="stats">{{ completed }} of {{ total }} tasks completed</div>
+
+  <form class="add" action="/add" method="post">
+    <input name="title" placeholder="New task..." required>
+    <input type="date" name="due_date">
+    <select name="priority">
+      <option>Low</option><option selected>Medium</option><option>High</option>
+    </select>
+    <button type="submit">Add Task</button>
+  </form>
+
+  <ul>
+  {% for t in tasks %}
+    <li class="{{ 'done' if t.done else '' }}">
+      <span class="t">{{ t.title }}</span>
+      <span class="tag {{ t.priority }}">{{ t.priority }}</span>
+      {% if t.due_date %}<span class="tag">Due {{ t.due_date }}</span>{% endif %}
+      <form class="edit" action="/edit/{{ t.id }}" method="post">
+        <input name="title" placeholder="rename"><button>Edit</button>
+      </form>
+      {% if not t.done %}<a href="/complete/{{ t.id }}">Complete</a>{% endif %}
+      <a class="del" href="/delete/{{ t.id }}">Delete</a>
+    </li>
+  {% else %}
+    <li>No tasks yet. Add your first one above.</li>
+  {% endfor %}
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+  "title": "STMS Monitoring",
+  "uid": "stms-monitoring",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "5s",
+  "time": { "from": "now-15m", "to": "now" },
+  "panels": [
+    {
+      "id": 1, "type": "stat", "title": "Total Requests",
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 5 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [ { "expr": "sum(flask_http_request_total)", "refId": "A" } ]
+    },
+    {
+      "id": 2, "type": "stat", "title": "Application Up",
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 5 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [ { "expr": "up{job=\"stms\"}", "refId": "A" } ]
+    },
+    {
+      "id": 3, "type": "timeseries", "title": "Requests per Second",
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 5 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [ { "expr": "sum(rate(flask_http_request_total[1m]))", "legendFormat": "req/s", "refId": "A" } ]
+    },
+    {
+      "id": 4, "type": "timeseries", "title": "Requests by Endpoint",
+      "gridPos": { "x": 0, "y": 5, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [ { "expr": "sum by (path) (rate(flask_http_request_total[1m]))", "legendFormat": "{{path}}", "refId": "A" } ]
+    },
+    {
+      "id": 5, "type": "timeseries", "title": "Average Response Time (s)",
+      "gridPos": { "x": 12, "y": 5, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [ { "expr": "rate(flask_http_request_duration_seconds_sum[1m]) / rate(flask_http_request_duration_seconds_count[1m])", "legendFormat": "{{path}}", "refId": "A" } ]
+    },
+    {
+      "id": 6, "type": "timeseries", "title": "Server Errors (5xx)",
+      "gridPos": { "x": 0, "y": 13, "w": 24, "h": 6 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [ { "expr": "sum(rate(flask_http_request_total{status=~\"5..\"}[1m]))", "legendFormat": "5xx/s", "refId": "A" } ]
+    }
+  ]
+}

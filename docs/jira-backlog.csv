@@ -1,0 +1,13 @@
+Summary,Issue Type,Description,Priority,Labels
+Add task feature,Story,"As a student I can add a task with title, due date and priority",High,feature
+Edit and delete task,Story,"As a student I can rename and delete tasks",Medium,feature
+Mark task complete,Story,"As a student I can mark a task as completed",High,feature
+Write unit tests,Story,"pytest tests for all routes",Medium,testing
+Create Dockerfile,Story,"Containerize the Flask app",High,docker
+Setup Docker Compose,Story,"Run web + Prometheus + Grafana together",High,docker
+Setup Jenkins pipeline,Story,"Jenkinsfile with checkout, test, build, deploy stages",High,cicd
+Setup GitHub Actions workflow,Story,"Test, build and push image on every push to main",High,cicd
+Grafana monitoring dashboard,Story,"Dashboard for requests, latency, errors",Medium,monitoring
+Deploy to AWS EC2,Story,"Auto-deploy via GitHub Actions over SSH",High,aws
+Terraform infrastructure,Story,"Provision EC2 + security group with Terraform",High,terraform
+Write README and documentation,Task,"Document project, steps and screenshots",Medium,docs
