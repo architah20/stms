@@ -1,7 +1,10 @@
-```groovy
-// Experiment 4 & 5: Jenkins CI pipeline for STMS
+
 pipeline {
     agent any
+
+    triggers {
+        pollSCM('H/1 * * * *')
+    }
 
     environment {
         IMAGE_NAME = 'stms'
@@ -53,4 +56,3 @@ pipeline {
         }
     }
 }
-```
