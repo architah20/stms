@@ -1,3 +1,4 @@
+```groovy
 // Experiment 4 & 5: Jenkins CI pipeline for STMS
 pipeline {
     agent any
@@ -37,14 +38,19 @@ pipeline {
                 sh '''
                     docker stop stms-jenkins-app || true
                     docker rm stms-jenkins-app || true
-                    docker run -d --name stms-jenkins-app -p 5001:5000 ${IMAGE_NAME}:latest
+                    docker run -d --name stms-jenkins-app -p 5002:5000 ${IMAGE_NAME}:latest
                 '''
             }
         }
     }
 
     post {
-        success { echo 'Pipeline succeeded. App running on port 5001.' }
-        failure { echo 'Pipeline failed. Check the stage logs.' }
+        success {
+            echo 'Pipeline succeeded. App running on port 5002.'
+        }
+        failure {
+            echo 'Pipeline failed. Check the stage logs.'
+        }
     }
 }
+```
