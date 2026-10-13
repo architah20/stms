@@ -40,17 +40,28 @@ def index():
     return render_template("index.html", tasks=tasks, total=total, completed=completed)
 
 
+
 @app.route("/add", methods=["POST"])
 def add():
     title = request.form.get("title", "").strip()
-    if title:
+    due_date = request.form.get("due_date") or None
+    priority = request.form.get("priority", "Medium").strip()
+
+    allowed_priorities = {"Low", "Medium", "High"}
+
+    if title and len(title) <= 200:
+        if priority not in allowed_priorities:
+            priority = "Medium"
+
         with get_db() as db:
             db.execute(
-                "INSERT INTO tasks (title, due_date, priority) VALUES (?, ?, ?)",
-                (title, request.form.get("due_date") or None,
-                 request.form.get("priority", "Medium")),
+                """INSERT INTO tasks (title, due_date, priority)
+                   VALUES (?, ?, ?)""",
+                (title, due_date, priority),
             )
+
     return redirect("/")
+
 
 
 @app.route("/edit/<int:task_id>", methods=["POST"])
