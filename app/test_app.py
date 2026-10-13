@@ -40,3 +40,19 @@ def test_complete_and_delete_task():
 
 def test_metrics_endpoint():
     assert client().get("/metrics").status_code == 200
+
+def test_invalid_priority_defaults_to_medium():
+    c = client()
+    c.post(
+        "/add",
+        data={"title": "Test priority validation", "priority": "Urgent"},
+    )
+
+    tasks = c.get("/api/tasks").get_json()
+    task = [
+        t for t in tasks
+        if t["title"] == "Test priority validation"
+    ][0]
+
+    assert task["priority"] == "Medium"
+
